@@ -8,7 +8,7 @@ import java.io.IOException;
 
 //Project has tasks, deadline,
 
-//When a project is open store all progess, tasks, and info in ArrayList.  Upon the closing of project, save the Array list in a file.
+//When a project is open store all progress, tasks, and info in ArrayList.  Upon the closing of project, save the Array list in a file.
 //To open project read the file and have each line a different task in ArrayList
 
 public class Project {
@@ -52,19 +52,13 @@ public class Project {
     }
 
     public void removeTask(String task){
-        int counter = 0;
-        for(String i : Tasks) {
-            if (i.equals(task)) {
-                Tasks.remove(counter);
-            }
-            counter++;
-        }
+        Tasks.remove(task);
     }
 
     public void saveToFile() {
         try {
-            out = new FileWriter(Name);
-            out.write(Name + "\n");
+            out = new FileWriter(Name.toUpperCase());
+            out.write(Name.toUpperCase() + "\n\n");
 
             for (String task : Tasks) {
                 out.write(task + "\n");
@@ -84,7 +78,12 @@ public class Project {
     public String taskToString(){
         String TaskString = "";
         for(String task : Tasks){
-            TaskString += task + ", ";
+            if (!task.equals(Tasks.get(Tasks.size()-1))) {
+                TaskString += task + ", ";
+            }
+            else{
+                TaskString += task;
+            }
         }
         return TaskString;
     }

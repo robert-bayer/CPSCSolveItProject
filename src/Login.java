@@ -13,9 +13,7 @@ int FunnyNumber = 0;
         }
     }
     public static boolean passwordCheck(String password, ArrayList<User> Users, int index){
-        if(Users.get(index).getPassword()==(password)) {
-            System.out.println(password);
-            System.out.println(Users.get(index).getPassword());
+        if(Users.get(index).getPassword().equals(password)) {
             System.out.println("Correct Password");
             return true;
         }
@@ -42,6 +40,7 @@ int FunnyNumber = 0;
                 int UserIndex = UsernameList.indexOf(UserTester.getUsername());
                 if(passwordCheck(UserTester.getPassword(), UserList, UserIndex ) == true){
                     System.out.println("Login Success!");
+                    FunnyNumber = 1;
                 }
             }
             }

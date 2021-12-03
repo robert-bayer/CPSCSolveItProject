@@ -68,6 +68,7 @@ public class Project {
     public String removeTask(String task){
         boolean status = false;
         int index = 0;
+
         for (String term : Tasks) {
             if (term.equals(task)) {
                 status = true;
@@ -75,6 +76,7 @@ public class Project {
             }
             index++;
         }
+
         if (!status){
             return "I'm sorry, " + task + " wasn't found in the list of tasks.";
         }
@@ -175,7 +177,7 @@ public class Project {
             fileScanner = new Scanner (new FileReader (fileName));
 
             if(fileScanner.hasNext()){
-                projectTitle = fileScanner.nextLine();
+                projectTitle = fileScanner.nextLine().strip();
                 fileScanner.nextLine();
             }
             while(fileScanner.hasNext()){

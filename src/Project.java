@@ -16,11 +16,11 @@ public class Project {
     List<String> Tasks = new ArrayList<>();
     List<String> TaskStatus = null;
     private String Deadline;
-    Scanner fileScanner = null;
 
-    public Project() {}
+    public Project() {TaskStatus = new ArrayList<>();}
     public Project(String Name){
         this.Name = Name;
+        TaskStatus = new ArrayList<>();
     }
     public Project(String Name, List<String> tasks){
         this.Name = Name;
@@ -67,16 +67,19 @@ public class Project {
 
     public String removeTask(String task){
         boolean status = false;
+        int index = 0;
         for (String term : Tasks) {
             if (term.equals(task)) {
-                Tasks.remove(term);
                 status = true;
+                break;
             }
+            index++;
         }
-        if (status == false){
+        if (!status){
             return "I'm sorry, " + task + " wasn't found in the list of tasks.";
         }
         else{
+            Tasks.remove(index);
             return "Successfully removed task: " + task;
         }
     }
@@ -91,11 +94,15 @@ public class Project {
             i++;
         }
         fileName = fileName.substring(4) + ".txt";
+        System.out.println("Saving as: " + fileName);
         try {
             out = new FileWriter(fileName);
+            System.out.println("Writing: " + Name);
             out.write(Name + "\n\n");
 
+
             for (String task : Tasks) {
+                System.out.println("Writing: " + task);
                 out.write(task + "\n");
             }
         }
@@ -124,10 +131,13 @@ public class Project {
         return TaskString;
     }
 
-    public Project openProject(String projectName){
+    public static Project openProject(String projectName){
+        Scanner fileScanner = null;
         String fileName = null;
         boolean status = false;
         File fileDir = new File(System.getProperty("user.dir"));
+
+        //System.out.println(fileDir.toString());
 
         int i = 0;
         while(i < projectName.length()){
@@ -145,7 +155,7 @@ public class Project {
             System.err.println("There are no projects in this directory.");
         }
         else{
-            for (int j = 0; i < fileList.length; i++){
+            for (int j = 0; j < fileList.length; j++){
                 String testFile = fileList[j];
                 if(fileName.equalsIgnoreCase(testFile)){
                     status = true;
@@ -159,11 +169,14 @@ public class Project {
             return null;
         }
 
+        List<String> tempArray = new ArrayList<>();
+        String projectTitle = "";
         try{
             fileScanner = new Scanner (new FileReader (fileName));
-            List<String> tempArray = new ArrayList<>();
+
             if(fileScanner.hasNext()){
-                String projectTitle = fileScanner.nextLine();
+                projectTitle = fileScanner.nextLine();
+                fileScanner.nextLine();
             }
             while(fileScanner.hasNext()){
                 tempArray.add(fileScanner.nextLine());
@@ -185,6 +198,7 @@ public class Project {
             if (fileScanner != null){
                 fileScanner.close();
             }
+            System.out.println(projectTitle + tempArray);
             Project openedProject = new Project(projectTitle, tempArray);
             return openedProject;
         }
@@ -193,6 +207,8 @@ public class Project {
 
 
     }
+
+
 
 
 }

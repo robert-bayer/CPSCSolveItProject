@@ -16,9 +16,9 @@ public class check {
         }
     }
 
-    public static String timecheck(long fuck) {
-        if (System.currentTimeMillis() <= fuck) {
-            long Remainingtime = fuck - System.currentTimeMillis();
+    public static String timecheck(long clocktime) {
+        if (System.currentTimeMillis() <= clocktime) {
+            long Remainingtime = clocktime - System.currentTimeMillis();
             long RemainingSeconds = Remainingtime / 1000;
             return "Current time remaining: " + RemainingSeconds + " seconds.";
         } else {

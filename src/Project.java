@@ -133,7 +133,7 @@ public class Project {
         return TaskString;
     }
 
-    public static Project openProject(String projectName){
+    public static Project getProjects(String projectName){
         Scanner fileScanner = null;
         String fileName = null;
         boolean status = false;
@@ -200,17 +200,11 @@ public class Project {
             if (fileScanner != null){
                 fileScanner.close();
             }
-            System.out.println(projectTitle + tempArray);
+            //System.out.println(projectTitle + tempArray);
             Project openedProject = new Project(projectTitle, tempArray);
             return openedProject;
         }
 
-
-
-
     }
-
-
-
 
 }

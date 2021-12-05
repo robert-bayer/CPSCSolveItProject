@@ -1,3 +1,6 @@
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class User {
     String Password;
     String Username;
@@ -18,5 +21,7 @@ public class User {
     public String getUsername(){
         return Username;
     }
+
+
 
 }

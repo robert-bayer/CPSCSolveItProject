@@ -35,12 +35,14 @@ public class PMConsole {
         int UserInt = 0;
 
         System.out.println("Welcome to Project Manager!\nThis program is designed to help you separate work and home while you work from home.\nIn here, you will be able to start, manage, and archive projects as you work on them.\nProjects can be as simple as reading a paper, to curing cancer.\nEach project has the ability to save tasks or goals, set a deadline for the project, and set task statuses.");
+
+        String User = Login.main();
         /*
         HERE IS WHERE THE LOG IN WILL HAPPEN, AFTER LOG IN, IMPORT ALL PROJECT.TXT FILES INTO PROJECT ARRAYLIST
          */
 
-        projects.add(Project.openProject("Dude"));
-        projects.add(Project.openProject("Hithere"));
+        projects.add(Project.getProjects("Dude"));
+        projects.add(Project.getProjects("Hithere"));
 
         //This Is the Main Execution Loop
         do {
@@ -95,6 +97,7 @@ public class PMConsole {
                     else{
                         UserInt = Integer.parseInt(UserString);
                     }
+
                     if (UserInt < 1 || UserInt > 4) {
                         System.err.println("That is not an option, please try again.");
                     } else if (UserInt == 1) {
@@ -148,8 +151,6 @@ public class PMConsole {
                             System.out.println("\n\nProject Menu (" + currentProject + ")\n1)Display Tasks\n2)Create Task\n3)Delete Task\n4)Close Project");
                             System.out.print("Please Enter the numeral for the option you want: ");
                             UserString = stdinScanner.next();
-
-
 
                             if (!isInteger(UserString)) {
                                 System.err.println("\nI'm sorry, that isn't an option.  Please try again.\n");

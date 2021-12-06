@@ -11,13 +11,16 @@ import java.util.Scanner;
 //To open project read the file and have each line a different task in ArrayList
 
 public class Project {
-    FileWriter out = null;
+    private static Scanner fileScanner = null;
+    private FileWriter out = null;
     private String Name;
-    List<String> Tasks = new ArrayList<>();
-    List<String> TaskStatus = null;
+    private List<String> Tasks = new ArrayList<>();
+    private List<String> TaskStatus = null;
     private String Deadline;
 
-    public Project() {TaskStatus = new ArrayList<>();}
+    public Project() {
+        TaskStatus = new ArrayList<>();
+    }
     public Project(String Name){
         this.Name = Name;
         TaskStatus = new ArrayList<>();
@@ -86,6 +89,59 @@ public class Project {
         }
     }
 
+    public void addToUser(String User){
+        List<String> tempLines = new ArrayList<>();
+        String fileName = null;
+        int i = 0;
+        while(i < Name.length()) {
+            if (Name.charAt(i) != ' ') {
+                fileName += Name.charAt(i);
+            }
+            i++;
+        }
+        fileName = fileName.substring(4);
+        try{
+            fileScanner = new Scanner( new FileReader(System.getProperty("user.dir") + "\\src\\" + User + ".txt"));
+            while(fileScanner.hasNext()) {
+                tempLines.add(fileScanner.nextLine());
+            }
+        }
+        catch( FileNotFoundException e){
+            System.err.println("That filename is not valid: " + e.getMessage());
+        }
+        catch(InputMismatchException e){
+            System.err.println("Error, unable to parse input!" );
+        }
+        catch(Exception e){
+            System.err.println("ERROR: " + e.getMessage());
+        }
+        finally{
+            if (fileScanner != null){
+                fileScanner.close();
+            }
+        }
+
+
+        try{
+            out = new FileWriter(System.getProperty("user.dir") + "\\src\\" + User + ".txt");
+
+            for(String line : tempLines){
+                out.write(line + "\n");
+            }
+            out.write(fileName + "\n");
+        }
+        catch (IOException e) {
+            System.err.println("ERROR: There was an IOException when writing to file: " + e.getMessage());
+        }
+        catch (Exception e) {
+            System.err.println("ERROR: There was an Exception when writing to file: " + e.getMessage());
+        }
+        finally{
+            closeWriter(out);
+        }
+
+    }
+
     public void saveToFile() {
         String fileName = null;
         int i = 0;
@@ -98,7 +154,7 @@ public class Project {
         fileName = fileName.substring(4) + ".txt";
         System.out.println("Saving as: " + fileName);
         try {
-            out = new FileWriter(fileName);
+            out = new FileWriter(System.getProperty("user.dir") + "\\projects\\" + fileName);
             System.out.println("Writing: " + Name);
             out.write(Name + "\n\n");
 
@@ -134,10 +190,10 @@ public class Project {
     }
 
     public static Project getProjects(String projectName){
-        Scanner fileScanner = null;
         String fileName = null;
         boolean status = false;
-        File fileDir = new File(System.getProperty("user.dir"));
+        File fileDir = new File(System.getProperty("user.dir") + "\\projects");
+        //System.out.println(fileDir);
 
         //System.out.println(fileDir.toString());
 
@@ -149,19 +205,22 @@ public class Project {
             i++;
         }
         fileName = fileName.substring(4) + ".txt";
+        //System.out.println(fileName);
 
 
-        String[] fileList = fileDir.list();
+        File[] fileList = fileDir.listFiles();
+        //System.out.println(fileList);
 
         if (fileList == null){
             System.err.println("There are no projects in this directory.");
         }
         else{
             for (int j = 0; j < fileList.length; j++){
-                String testFile = fileList[j];
-                if(fileName.equalsIgnoreCase(testFile)){
+                File testFile = fileList[j];
+                if(fileName.equalsIgnoreCase(testFile.getName())){
                     status = true;
                     System.out.println("Project Found, Opening.");
+                    //System.out.println(testFile.getName());
                     break;
                 }
             }
@@ -174,15 +233,17 @@ public class Project {
         List<String> tempArray = new ArrayList<>();
         String projectTitle = "";
         try{
-            fileScanner = new Scanner (new FileReader (fileName));
+            fileScanner = new Scanner (new FileReader (System.getProperty("user.dir") + "\\projects\\" + fileName));
 
             if(fileScanner.hasNext()){
                 projectTitle = fileScanner.nextLine().strip();
+                //System.out.println(projectTitle);
                 fileScanner.nextLine();
             }
             while(fileScanner.hasNext()){
                 tempArray.add(fileScanner.nextLine());
             }
+            //System.out.println(tempArray);
         }
         catch( FileNotFoundException e){
             System.err.println("That filename is not valid: " + e.getMessage());

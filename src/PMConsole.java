@@ -15,6 +15,14 @@ import java.io.File;
  * @version 2.3
  */
 
+/**
+ * This program will track projects and their progress for its users and keep a log of what users get access to what projects.
+ *
+ *
+ *
+ *
+ *
+ */
 public class PMConsole {
     /**
           isInteger checks the user input to see if it is an integer.

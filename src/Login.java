@@ -1,15 +1,15 @@
 import java.io.*;
 import java.util.*;
+
 /**
+ * Basic log in system for the PMConsole.  Gets the working user.
  * @author Andrew Gonye
  * @author Robert Bayer
  * @author Clayton Everitt
+ * @version 2.0
+ *
  */
-/**
- * Login is a small database system that reads information of a list of users from a file.
- * Users are prompted to put in their username and password that is in the list of user information.
- * Multiple methods are used to verify the username and password
- */
+
 public class Login {
     private static int UserInt = 0;
     private static int FunnyNumber = 0;

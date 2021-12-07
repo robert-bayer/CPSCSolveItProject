@@ -4,16 +4,17 @@ import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
 import java.io.File;
-
-/**
- * @author Andrew Gonye
- * @author Robert Bayer
- * @author Clayton Everitt
- */
 /**
  * This is  a program designed to allow a user to create projects which contain tasks and change the status of the tasks,
- * all in an 8-hour period, which is timed
+ * all in an 8-hour period, which is timed. This is designed to promote a separation of work and home life for those who
+ * work from home.
+ *
+ * @author Robert Bayer
+ * @author Andrew Gonye
+ * @author Clayton Everitt
+ * @version 2.3
  */
+
 public class PMConsole {
     /**
           isInteger checks the user input to see if it is an integer.

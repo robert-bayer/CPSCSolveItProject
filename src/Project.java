@@ -9,6 +9,7 @@ import java.util.Scanner;
  * @author Andrew Gonye
  * @author Robert Bayer
  * @author Clayton Everitt
+ * @version 1.5
  */
 public class Project {
     private static Scanner fileScanner = null;
@@ -143,7 +144,7 @@ public class Project {
             }
         }
         catch( FileNotFoundException e){
-            System.err.println("That filename is not valid: " + e.getMessage());
+            System.err.println("File does not exist: " + e.getMessage());
         }
         catch(InputMismatchException e){
             System.err.println("Error, unable to parse input!" );
@@ -156,6 +157,14 @@ public class Project {
                 fileScanner.close();
             }
         }
+
+/**
+ *
+ *
+ *
+ *
+ *
+ **/
 
 
         try{

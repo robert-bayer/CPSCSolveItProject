@@ -198,6 +198,10 @@ public class Login {
                 workingUser = newUser.getUsername();
                 bigStatus = true;
             }
+            if(UserInt == 3){
+                System.out.println("Goodbye!");
+                System.exit(0);
+            }
         }
         while(UserInt != 3 || !bigStatus);
 

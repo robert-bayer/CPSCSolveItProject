@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
-//Project has tasks, deadline,
-
-//When a project is open store all progress, tasks, and info in ArrayList.  Upon the closing of project, save the Array list in a file.
-//To open project read the file and have each line a different task in ArrayList
-
+/**
+ * * This is a program that scans files to check for project names as well as task names.
+ * @author Andrew Gonye
+ * @author Robert Bayer
+ * @author Clayton Everitt
+ */
 public class Project {
     private static Scanner fileScanner = null;
     private FileWriter out = null;
@@ -31,6 +31,10 @@ public class Project {
         this.TaskStatus = new ArrayList<>(Tasks.size());
     }
 
+    /**
+     * closes a writer
+     * @param file text file
+     */
     public void closeWriter(Writer file){
         try{
             if(file != null){
@@ -42,32 +46,60 @@ public class Project {
         }
     }
 
+    /**
+     * sets a dealine
+     * @param deadline string the user has input for a deadline
+     */
     public void setDeadline(String deadline){
         this.Deadline = deadline;
     }
 
+    /**
+     * returns the deadline the user has set
+     * @return deadline string
+     */
     public String getDeadline(){
         return Deadline;
     }
 
+    /**
+     * sets a name the user has input
+     * @param Name string the user has input to set as a name
+     */
     public void setName(String Name){
         this.Name = Name;
     }
 
+    /**
+     * returns the name the user has input
+     * @return name the user has set
+     */
     public String getName(){
         return Name;
     }
 
+    /**
+     * adds a task to the task list
+     * @param task task the user has set
+     */
     public void addTask(String task){
         Tasks.add(task);
         TaskStatus.add("Not Started");
     }
 
-
+    /**
+           displays tasks
+           @return Tasks String arraylist
+          */
     public List<String> displayTasks(){
         return Tasks;
     }
-
+    /**
+     *
+              *removes a task from the task list
+              *@param task is the string of task to be removed
+              *returns a string that displays that the task was removed, or the task wasn't found in the list of tasks
+             */
     public String removeTask(String task){
         boolean status = false;
         int index = 0;
@@ -89,6 +121,10 @@ public class Project {
         }
     }
 
+    /**
+     * Adds information to the userfile
+     * @param User the user that has been input
+     */
     public void addToUser(String User){
         List<String> tempLines = new ArrayList<>();
         String fileName = null;
@@ -142,7 +178,11 @@ public class Project {
 
     }
 
+    /**
+     * saves information to a file
+     */
     public void saveToFile() {
+        // takes care of all writing and saving to file
         String fileName = null;
         int i = 0;
         while(i < Name.length()){
@@ -176,7 +216,12 @@ public class Project {
         }
     }
 
+    /**
+     * outputs a string back to the user
+     * @return String containing the list of tasks
+     */
     public String taskToString(){
+        //returns a task
         String TaskString = "";
         for(String task : Tasks){
             if (!task.equals(Tasks.get(Tasks.size()-1))) {
@@ -189,13 +234,15 @@ public class Project {
         return TaskString;
     }
 
+    /**
+     * returns project info
+     * @param projectName name of project the user has input
+     * @return project information
+     */
     public static Project getProjects(String projectName){
         String fileName = null;
         boolean status = false;
         File fileDir = new File(System.getProperty("user.dir") + "\\projects");
-        //System.out.println(fileDir);
-
-        //System.out.println(fileDir.toString());
 
         int i = 0;
         while(i < projectName.length()){
@@ -205,11 +252,10 @@ public class Project {
             i++;
         }
         fileName = fileName.substring(4) + ".txt";
-        //System.out.println(fileName);
 
 
         File[] fileList = fileDir.listFiles();
-        //System.out.println(fileList);
+
 
         if (fileList == null){
             System.err.println("There are no projects in this directory.");
@@ -220,7 +266,6 @@ public class Project {
                 if(fileName.equalsIgnoreCase(testFile.getName())){
                     status = true;
                     System.out.println("Project Found, Opening.");
-                    //System.out.println(testFile.getName());
                     break;
                 }
             }
@@ -237,13 +282,11 @@ public class Project {
 
             if(fileScanner.hasNext()){
                 projectTitle = fileScanner.nextLine().strip();
-                //System.out.println(projectTitle);
                 fileScanner.nextLine();
             }
             while(fileScanner.hasNext()){
                 tempArray.add(fileScanner.nextLine());
             }
-            //System.out.println(tempArray);
         }
         catch( FileNotFoundException e){
             System.err.println("That filename is not valid: " + e.getMessage());
@@ -261,11 +304,9 @@ public class Project {
             if (fileScanner != null){
                 fileScanner.close();
             }
-            //System.out.println(projectTitle + tempArray);
             Project openedProject = new Project(projectTitle, tempArray);
             return openedProject;
         }
 
     }
-
 }

@@ -5,8 +5,21 @@ import java.util.List;
 import java.util.ArrayList;
 import java.io.File;
 
+/**
+ * @author Andrew Gonye
+ * @author Robert Bayer
+ * @author Clayton Everitt
+ */
+/**
+ * This is  a program designed to allow a user to create projects which contain tasks and change the status of the tasks,
+ * all in an 8-hour period, which is timed
+ */
 public class PMConsole {
-
+    /**
+          isInteger checks the user input to see if it is an integer.
+          @param UserInput is a string that has been submitted by the user through a scanner
+         * @return false if the string is not equivalent to an integer value, true otherwise.
+         */
     public static boolean isInteger(String UserInput){
         if(UserInput.isEmpty()) {
             return false;
@@ -26,7 +39,11 @@ public class PMConsole {
         return true;
 
     }
-
+    /**
+             timecheck looks at the current time remaining in an 8-hour period and returns the hours, minutes, and seconds.
+             @param clocktime is the first recorded time in the program with 8 hours added to it.
+            * @return false if there is remaining time, true if otherwise
+            */
     public static boolean timecheck(long clocktime) {
         if (System.currentTimeMillis() <= clocktime) {
             long Remainingtime = clocktime - System.currentTimeMillis();
@@ -54,10 +71,8 @@ public class PMConsole {
 
         String myUser = Login.getWorkingUser();
 
-        //System.out.println(myUser);
 
         long time = System.currentTimeMillis();
-        //System.out.println(time);
         long time2 = time + (28800000);
         int FunnyNumber = 0;
 
@@ -70,13 +85,6 @@ public class PMConsole {
 
             System.out.println("Welcome to Project Manager!\nThis program is designed to help you separate work and home while you work from home.\nIn here, you will be able to start, manage, and archive projects as you work on them.\nProjects can be as simple as reading a paper, to curing cancer.\nEach project has the ability to save tasks or goals, set a deadline for the project, and set task statuses.");
 
-
-        /*
-        HERE IS WHERE THE LOG IN WILL HAPPEN, AFTER LOG IN, IMPORT ALL PROJECT.TXT FILES INTO PROJECT ARRAYLIST
-         */
-
-            //projects.add(Project.getProjects("Dude"));
-           // projects.add(Project.getProjects("Hithere"));
 
             //This Is the Main Execution Loop
             do {
@@ -108,7 +116,6 @@ public class PMConsole {
 
                     //Inserting Tasks into the New Project
 
-                    //stdinScanner.nextLine();
                     while (!UserString.equals("done")) {
                         System.out.print("Add a task to " + newProject.getName() + " (Type 'done' when your are done) : ");
                         UserString = stdinScanner.nextLine();
@@ -306,6 +313,4 @@ public class PMConsole {
         }
 
     }
-
 }
-

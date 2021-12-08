@@ -1,8 +1,5 @@
 import java.io.*;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * * This is a program that scans files to check for project names as well as task names.
@@ -36,7 +33,7 @@ public class Project {
      * closes a writer
      * @param file text file
      */
-    public void closeWriter(Writer file){
+    public static void closeWriter(Writer file){
         try{
             if(file != null){
                 file.close();
@@ -138,7 +135,7 @@ public class Project {
         }
         fileName = fileName.substring(4);
         try{
-            fileScanner = new Scanner( new FileReader(System.getProperty("user.dir") + "\\src\\" + User + ".txt"));
+            Scanner fileScanner = new Scanner( new FileReader(System.getProperty("user.dir") + "\\src\\" + User + ".txt"));
             while(fileScanner.hasNext()) {
                 tempLines.add(fileScanner.nextLine());
             }
@@ -244,6 +241,113 @@ public class Project {
     }
 
     /**
+     * Deletes the project
+     */
+    public static boolean deleteProject(Project project, String user){
+        List<String> tempArray = new ArrayList<>();
+        File Dir = new File(System.getProperty("user.dir") + "\\projects");
+        int i = 0;
+        String myName = project.Name;
+        FileWriter out = null;
+        //System.out.println("project name: " + projectName);
+        String testName = "";
+        int p = 0;
+        while(p < myName.length()){
+            if (myName.charAt(p) != ' '){
+                testName += myName.charAt(p);
+            }
+            p++;
+        }
+        testName = testName + ".txt";
+
+
+        System.out.println("Looking for " +testName);
+        File[] myList = Dir.listFiles();
+        String templine = "";
+        //System.out.println(myName);
+
+        if (myList == null){
+            System.err.println("There are no projects in this directory.");
+        }
+        else{
+            String fileName;
+            System.out.println("Working");
+            for (int j = 0; j < myList.length; j++){
+                fileName = "";
+                File testFile = myList[j];
+                int t = 0;
+                while(t < testFile.getName().length()){
+                    if (testFile.getName().charAt(t) != ' '){
+                        fileName += testFile.getName().charAt(t);
+                    }
+                    t++;
+                }
+                System.out.println("Testing against: " + fileName + "...." + testName);
+                //System.out.println(testFile.getName());
+                if(testName.equalsIgnoreCase(fileName)){
+                    System.out.println("Found it");
+                    try {
+                        Scanner fileScanner = new Scanner(new FileReader(System.getProperty("user.dir") + "\\src\\" + user + ".txt"));
+                        while(fileScanner.hasNext()){
+                            templine = fileScanner.nextLine().strip();
+                            System.out.println(templine);
+                            if(!fileName.equals(templine)){
+                                tempArray.add(templine);
+                            }
+                        }
+                    }
+                    catch( FileNotFoundException e){
+                        System.err.println("That filename is not valid: " + e.getMessage());
+                    }
+                    catch(InputMismatchException e){
+                        System.err.println("Error, unable to parse input!" );
+                    }
+                    catch(Exception e){
+                        System.err.println("ERROR: " + e.getMessage());
+                    }
+                    finally {
+                        if (fileScanner != null) {
+                            fileScanner.close();
+                        }
+                    }
+
+                    System.out.println("Found File: " + System.getProperty("user.dir") + "\\projects\\" + testName);
+                    File file = new File(System.getProperty("user.dir") + "\\projects\\" + testName);
+                    System.out.println(file);
+
+                    if(file.delete()){
+                        System.out.println("Deleting");
+                        try{
+                            out = new FileWriter(System.getProperty("user.dir")+"\\src\\" + user +".txt");
+                            for(String line : tempArray){
+                                out.write(line+"\n");
+                            }
+                        }
+                        catch(IOException e){
+                            System.err.println("ERROR: There was an IOException when writing to file: " + e.getMessage());
+                        }
+                        catch(Exception e){
+                            System.err.println("ERROR: There was an Exception when writing to file: " + e.getMessage());
+                        }
+                        finally{
+                            System.out.println("Success!");
+                            closeWriter(out);
+                        }
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+
+
+
+    /**
      * returns project info
      * @param projectName name of project the user has input
      * @return project information
@@ -287,7 +391,7 @@ public class Project {
         List<String> tempArray = new ArrayList<>();
         String projectTitle = "";
         try{
-            fileScanner = new Scanner (new FileReader (System.getProperty("user.dir") + "\\projects\\" + fileName));
+            Scanner fileScanner = new Scanner (new FileReader (System.getProperty("user.dir") + "\\projects\\" + fileName));
 
             if(fileScanner.hasNext()){
                 projectTitle = fileScanner.nextLine().strip();

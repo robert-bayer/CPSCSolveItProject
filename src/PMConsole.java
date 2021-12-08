@@ -98,7 +98,7 @@ public class PMConsole {
             //This Is the Main Execution Loop
             do {
                 currentProject = null;
-                System.out.println("\n\nMain Menu:\n1)Create new Project\n2)Open Project\n3)Delete Project\n4)Display Projects\n5)Exit");
+                System.out.println("\n\nMain Menu:\n1)Create new Project\n2)Open Project\n3)Display Projects\n4)Exit");
                 System.out.print("\nEnter the numeral for the options you would like: ");
                 UserString = stdinScanner.next();
 
@@ -109,7 +109,7 @@ public class PMConsole {
                     UserInt = Integer.parseInt(UserString);
                 }
 
-                if (UserInt < 1 || UserInt > 5) {
+                if (UserInt < 1 || UserInt > 4) {
                     System.err.println("\nI'm sorry, that isn't an option.  Please try again.\n");
                 }
                 //Creating a Project
@@ -166,11 +166,7 @@ public class PMConsole {
                             stdinScanner.nextLine();
                             System.out.print("\n\nEnter a task to add: ");
                             UserString = stdinScanner.nextLine();
-                            for (Project project : projects) {
-                                if (project.getName().equals(currentProject.getName())) {
-                                    project.addTask(UserString);
-                                }
-                            }
+                            currentProject.addTask(UserString);
                             if (timecheck(time2)) {
                                 FunnyNumber = 1;
                             }
@@ -179,11 +175,7 @@ public class PMConsole {
                             System.out.println(newProject.taskToString());
                             System.out.print("\n\nEnter the task you want to delete:");
                             UserString = stdinScanner.nextLine();
-                            for (Project project : projects) {
-                                if (project.getName().equals(currentProject.getName())) {
-                                    System.out.println(project.removeTask(UserString));
-                                }
-                            }
+                            currentProject.removeTask(UserString);
                             if (timecheck(time2)) {
                                 FunnyNumber = 1;
                             }
@@ -279,6 +271,8 @@ public class PMConsole {
 
                 }
 
+
+                /*
                 else if (UserInt == 3) {
                     stdinScanner.nextLine();
                     int numeral = 1;
@@ -294,9 +288,10 @@ public class PMConsole {
                     } else {
                         UserInt = Integer.parseInt(UserString);
                     }
+                    currentProject = projects.get(UserInt-1);
 
                     boolean projectStatus = false;
-                    if (UserInt <= projects.size()){
+                    if (Project.deleteProject(projects.get(UserInt-1), myUser)){
                         projects.remove(UserInt-1);
                         projectStatus = true;
                     }
@@ -305,11 +300,14 @@ public class PMConsole {
                     } else {
                         System.err.println("ERROR: Could not find project.");
                     }
+
                     if (timecheck(time2)) {
                         FunnyNumber = 1;
                     }
 
-                } else if (UserInt == 4) {
+
+
+                }*/ else if (UserInt == 3) {
                     int numeral = 1;
                     for (Project project : projects) {
                         System.out.println(numeral + ") " + project.getName() + " - Tasks: " + project.taskToString());
@@ -318,7 +316,7 @@ public class PMConsole {
                     if (timecheck(time2)) {
                         FunnyNumber = 1;
                     }
-                } else if (UserInt == 5) {
+                } else if (UserInt == 4) {
                     System.out.println("We will see you next time!");
                     System.exit(0);
                 }
@@ -327,7 +325,7 @@ public class PMConsole {
                     System.exit(0);
                 }
             }
-            while (UserInt != 5);
+            while (UserInt != 4);
             System.out.println("We will see you next time!");
         }
 

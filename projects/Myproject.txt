@@ -1,7 +1,0 @@
-Myproject
-
-One
-Two
-Three
-Four
-No

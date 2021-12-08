@@ -174,7 +174,6 @@ public class Login {
                                         }
                                     }
                                     bigStatus = true;
-                                    UserInt = 3;
                                 }
                             }
                             while(!status);
@@ -199,11 +198,10 @@ public class Login {
                 bigStatus = true;
             }
             else if(UserInt == 3){
-                System.out.println("Goodbye!");
-                System.exit(0);
+                break;
             }
         }
-        while(UserInt != 3 || !bigStatus);
+        while(UserInt != 3 && !bigStatus);
 
         try{
             out = new FileWriter(System.getProperty("user.dir")+"\\src\\User.txt");
@@ -224,6 +222,11 @@ public class Login {
         System.out.println(FileImport);
         for (String name : FileImport) {
             ProjectList.add(Project.getProjects(name));
+        }
+
+        if(UserInt == 3){
+            System.out.println("Goodbye");
+            System.exit(0);
         }
         return ProjectList;
     }

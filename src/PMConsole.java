@@ -70,7 +70,7 @@ public class PMConsole {
 
     public static void main(String[] args) {
         String UserString = "";
-        String currentProject = "";
+        Project currentProject;
         List<Project> projects = new ArrayList<>();
         Scanner stdinScanner = new Scanner(System.in);
         int UserInt = 0;
@@ -97,7 +97,7 @@ public class PMConsole {
 
             //This Is the Main Execution Loop
             do {
-                currentProject = "";
+                currentProject = null;
                 System.out.println("\n\nMain Menu:\n1)Create new Project\n2)Open Project\n3)Delete Project\n4)Display Projects\n5)Exit");
                 System.out.print("\nEnter the numeral for the options you would like: ");
                 UserString = stdinScanner.next();
@@ -134,14 +134,14 @@ public class PMConsole {
                         newProject.addTask(UserString);
                     }
                     projects.add(newProject);
-                    currentProject = newProject.getName();
+                    currentProject = projects.get(projects.size() - 1);
                     if (timecheck(time2)) {
                         FunnyNumber = 1;
                     }
 
                     //Project Manipulation
                     do {
-                        System.out.println("\n\nProject Menu (" + newProject.getName() + ")\n1)Display Tasks\n2)Create Task\n3)Delete Task\n4)Close Project");
+                        System.out.println("\n\nProject Menu (" + currentProject.getName() + ")\n1)Display Tasks\n2)Create Task\n3)Delete Task\n4)Close Project");
                         System.out.print("Please Enter the numeral for the option you want: ");
                         UserString = stdinScanner.next();
 
@@ -155,7 +155,7 @@ public class PMConsole {
                             System.err.println("That is not an option, please try again.");
                         } else if (UserInt == 1) {
                             for (Project project : projects) {
-                                if (project.getName().equals(currentProject)) {
+                                if (project.getName().equals(currentProject.getName())) {
                                     System.out.println(project.taskToString());
                                 }
                             }
@@ -167,7 +167,7 @@ public class PMConsole {
                             System.out.print("\n\nEnter a task to add: ");
                             UserString = stdinScanner.nextLine();
                             for (Project project : projects) {
-                                if (project.getName().equals(currentProject)) {
+                                if (project.getName().equals(currentProject.getName())) {
                                     project.addTask(UserString);
                                 }
                             }
@@ -180,7 +180,7 @@ public class PMConsole {
                             System.out.print("\n\nEnter the task you want to delete:");
                             UserString = stdinScanner.nextLine();
                             for (Project project : projects) {
-                                if (project.getName().equals(currentProject)) {
+                                if (project.getName().equals(currentProject.getName())) {
                                     System.out.println(project.removeTask(UserString));
                                 }
                             }
@@ -190,7 +190,7 @@ public class PMConsole {
                         } else if (UserInt == 4) {
                             System.out.println("Saving to file.");
                             for (Project project : projects) {
-                                if (project.getName().equals(currentProject)) {
+                                if (project.getName().equals(currentProject.getName())) {
                                     project.saveToFile();
                                 }
                             }
@@ -209,72 +209,77 @@ public class PMConsole {
                     }
                     System.out.print("What project would you like to open: ");
                     UserString = stdinScanner.nextLine().strip();
-                    for (Project project : projects) {
-                        if (UserString.equalsIgnoreCase(project.getName())) {
-                            currentProject = project.getName();
-                            do {
-                                System.out.println("\n\nProject Menu (" + currentProject + ")\n1)Display Tasks\n2)Create Task\n3)Delete Task\n4)Close Project");
-                                System.out.print("Please Enter the numeral for the option you want: ");
-                                UserString = stdinScanner.next();
 
-                                if (!isInteger(UserString)) {
-                                    System.err.println("\nI'm sorry, that isn't an option.  Please try again.\n");
-                                } else {
-                                    UserInt = Integer.parseInt(UserString);
-                                }
-
-                                if (UserInt < 1 || UserInt > 4) {
-                                    System.err.println("That is not an option, please try again.");
-                                } else if (UserInt == 1) {
-                                    System.out.println(project.taskToString());
-                                    if (timecheck(time2)) {
-                                        FunnyNumber = 1;
-                                    }
-                                } else if (UserInt == 2) {
-                                    stdinScanner.nextLine();
-                                    System.out.print("\n\nEnter a task to add: ");
-                                    UserString = stdinScanner.nextLine();
-                                    project.addTask(UserString);
-                                    if (timecheck(time2)) {
-                                        FunnyNumber = 1;
-                                    }
-                                } else if (UserInt == 3) {
-                                    stdinScanner.nextLine();
-                                    System.out.println(project.taskToString());
-                                    System.out.print("\n\nEnter the task you want to delete:");
-                                    UserString = stdinScanner.nextLine();
-                                    System.out.println(project.removeTask(UserString));
-                                    if (timecheck(time2)) {
-                                        FunnyNumber = 1;
-                                    }
-                                } else if (UserInt == 4) {
-                                    System.out.println("Saving to file.");
-                                    project.saveToFile();
-                                    if (timecheck(time2)) {
-                                        FunnyNumber = 1;
-                                    }
-                                }
-                                if(FunnyNumber == 1) {
-                                    stdinScanner.nextLine();
-                                    System.out.print("It's time to stop working!\nPlease enter any remaining thoughts, what your next step should be, or any other notes here (1 Line): ");
-                                    UserString = stdinScanner.nextLine();
-                                    project.addTask(UserString);
-                                    project.saveToFile();
-                                    System.out.println("We will see you next time!");
-                                    System.exit(0);
-                                }
-                            }
-                            while (UserInt != 4);
-                        }
-                        else if(UserInt == 4){
-                            break;
-                        }
-                        else {
-                            System.err.println("There is no project named " + UserString);
-                        }
+                    if (!isInteger(UserString)) {
+                        System.err.println("\nI'm sorry, that isn't an option.  Please try again.\n");
+                    } else {
+                        UserInt = Integer.parseInt(UserString);
                     }
 
-                } else if (UserInt == 3) {
+
+                    if(UserInt <= projects.size()){
+                        currentProject = projects.get(UserInt-1);
+                        do {
+                            System.out.println("\n\nProject Menu (" + currentProject.getName() + ")\n1)Display Tasks\n2)Create Task\n3)Delete Task\n4)Close Project");
+                            System.out.print("Please Enter the numeral for the option you want: ");
+                            UserString = stdinScanner.next();
+
+                            if (!isInteger(UserString)) {
+                                System.err.println("\nI'm sorry, that isn't an option.  Please try again.\n");
+                            } else {
+                                UserInt = Integer.parseInt(UserString);
+                            }
+
+                            if (UserInt < 1 || UserInt > 4) {
+                                System.err.println("That is not an option, please try again.");
+                            } else if (UserInt == 1) {
+                                System.out.println(currentProject.taskToString());
+                                if (timecheck(time2)) {
+                                    FunnyNumber = 1;
+                                }
+                            } else if (UserInt == 2) {
+                                stdinScanner.nextLine();
+                                System.out.print("\n\nEnter a task to add: ");
+                                UserString = stdinScanner.nextLine();
+                                currentProject.addTask(UserString);
+                                if (timecheck(time2)) {
+                                    FunnyNumber = 1;
+                                }
+                            } else if (UserInt == 3) {
+                                stdinScanner.nextLine();
+                                System.out.println(currentProject.taskToString());
+                                System.out.print("\n\nEnter the task you want to delete:");
+                                UserString = stdinScanner.nextLine();
+                                System.out.println(currentProject.removeTask(UserString));
+                                if (timecheck(time2)) {
+                                    FunnyNumber = 1;
+                                }
+                            } else if (UserInt == 4) {
+                                System.out.println("Saving to file.");
+                                currentProject.saveToFile();
+                                if (timecheck(time2)) {
+                                    FunnyNumber = 1;
+                                }
+                            }
+                            if(FunnyNumber == 1) {
+                                stdinScanner.nextLine();
+                                System.out.print("It's time to stop working!\nPlease enter any remaining thoughts, what your next step should be, or any other notes here (1 Line): ");
+                                UserString = stdinScanner.nextLine();
+                                currentProject.addTask(UserString);
+                                currentProject.saveToFile();
+                                System.out.println("We will see you next time!");
+                                System.exit(0);
+                            }
+                        }
+                        while (UserInt != 4);
+                        }
+                    else{
+                        System.err.println("There is no project at that choice");
+                    }
+
+                }
+
+                else if (UserInt == 3) {
                     stdinScanner.nextLine();
                     int numeral = 1;
                     for (Project project : projects) {
@@ -283,12 +288,17 @@ public class PMConsole {
                     }
                     System.out.println("What project would you like to delete?");
                     UserString = stdinScanner.nextLine();
+
+                    if (!isInteger(UserString)) {
+                        System.err.println("\nI'm sorry, that isn't an option.  Please try again.\n");
+                    } else {
+                        UserInt = Integer.parseInt(UserString);
+                    }
+
                     boolean projectStatus = false;
-                    for (Project project : projects) {
-                        if (UserString.equalsIgnoreCase(project.getName())) {
-                            System.out.println(project.removeTask(UserString));
-                            projectStatus = true;
-                        }
+                    if (UserInt <= projects.size()){
+                        projects.remove(UserInt-1);
+                        projectStatus = true;
                     }
                     if (projectStatus) {
                         System.out.println("Successfully deleted project.");
